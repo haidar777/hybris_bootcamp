@@ -1,0 +1,36 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Suppliers
+
+# Macros / Replacement Parameter definitions
+$productCatalog=__PRODUCT_CATALOG_NAME__
+$productCatalogName=__PRODUCT_CATALOG_FULL_NAME__
+
+$lang=en
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$superCategories=superCategories(code, $catalogVersion)
+
+# Create Supplier Categories
+INSERT_UPDATE Category;code[unique=true];$superCategories;allowedPrincipals(uid)[default='customergroup'];$catalogVersion
+
+# Insert Province
+INSERT_UPDATE Province;code[unique=true];name[lang=$lang]
+                      ;Province01       ;"Jawa Barat"
+                      ;Province02       ;"Jawa Tengah"
+                      ;Province03       ;"Jawa Timur"
+
+# Insert City
+INSERT_UPDATE City;code[unique=true];name[lang=$lang]
+                  ;City01           ;"Bandung"
+                  ;City02           ;"Purwakarta"
+                  ;City03           ;"Surabaya"
+
+
+
+# Insert Suppliers
+INSERT_UPDATE Suppliers;code[unique=true]   ;variantProduct(code)       ;name            ;province(code)          ;city(code)
+                       ;S01                 ;PB-SHIRT-1                 ;Supplier A      ;Province03              ;City03
+                       ;S02                 ;PB-SHIRT-2                 ;Supplier B      ;Province02              ;City02
+                       ;S03                 ;CV-S1                      ;Supplier C      ;Province01              ;City01

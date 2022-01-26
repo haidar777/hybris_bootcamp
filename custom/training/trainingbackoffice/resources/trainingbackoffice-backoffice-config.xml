@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<config xmlns="http://www.hybris.com/cockpit/config"
+	xmlns:na="http://www.hybris.com/cockpitng/config/notifications">
+
+	<context merge-by="module" component="editorareaactions" type="Consignment">
+		<y:actions xmlns:y="http://www.hybris.com/cockpit/config/hybris">
+			<y:group qualifier="common">
+				<y:label>actiongroup.common</y:label>				
+				<y:action action-id="org.training.backoffice.actions.confirmpickupaction" property="currentObject"/>				
+			</y:group>
+		</y:actions>
+    </context>
+
+	<!-- Notification Area-->
+	<context component="notification-area">
+	    <na:notification-area>	        
+	        <na:notifications eventType="trainingbackoffice.confirmpickup.event" level="SUCCESS">
+	            <na:message>hmc.action.confirmpickup.success</na:message>
+	        </na:notifications>
+	   </na:notification-area>
+	</context>
+
+	<context merge-by="module" parent="auto" component="explorer-tree">
+		<n:explorer-tree xmlns:n="http://www.hybris.com/cockpitng/config/explorertree">
+			<n:navigation-node id="Training">
+				<n:type-node id="hmc_type_province" code= "Province" />
+				<n:type-node id="hmc_type_city" code="City" />
+				<n:type-node id="hmc_type_suppliers" code="Suppliers" />
+			</n:navigation-node>
+		</n:explorer-tree>
+	</context>
+
+	<context type="Province" component="listview">
+		<lv:list-view xmlns:lv="http://www.hybris.com/cockpitng/component/listView">
+			<lv:column spring-bean="previewListCellRenderer" />
+			<lv:column qualifier="code"/>
+			<lv:column qualifier="name"/>
+		</lv:list-view>
+	</context>
+
+	<context type="Province" component="collection-browser" >
+		<cb:collection-browser xmlns:cb="http://www.hybris.com/cockpitng/config/collectionbrowser">
+			<cb:available-molds>
+				<cb:mold spring-bean="listViewCollectionBrowserMoldStrategy"/>
+				<cb:mold spring-bean="gridViewCollectionBrowserMoldStrategy"/>
+			</cb:available-molds>
+		</cb:collection-browser>
+	</context>
+
+	<context type="City" component="listview">
+		<lv:list-view xmlns:lv="http://www.hybris.com/cockpitng/component/listView">
+			<lv:column spring-bean="previewListCellRenderer" />
+			<lv:column qualifier="code"/>
+			<lv:column qualifier="name"/>
+		</lv:list-view>
+	</context>
+
+	<context type="City" component="collection-browser" >
+		<cb:collection-browser xmlns:cb="http://www.hybris.com/cockpitng/config/collectionbrowser">
+			<cb:available-molds>
+				<cb:mold spring-bean="listViewCollectionBrowserMoldStrategy"/>
+				<cb:mold spring-bean="gridViewCollectionBrowserMoldStrategy"/>
+			</cb:available-molds>
+		</cb:collection-browser>
+	</context>
+
+	<context type="Suppliers" component="listview">
+		<lv:list-view xmlns:lv="http://www.hybris.com/cockpitng/component/listView">
+			<lv:column spring-bean="previewListCellRenderer" />
+			<lv:column qualifier="code"/>
+			<lv:column qualifier="city"/>
+			<lv:column qualifier="province"/>
+		</lv:list-view>
+	</context>
+
+	<context type="Suppliers" component="collection-browser" >
+		<cb:collection-browser xmlns:cb="http://www.hybris.com/cockpitng/config/collectionbrowser">
+			<cb:available-molds>
+				<cb:mold spring-bean="listViewCollectionBrowserMoldStrategy"/>
+				<cb:mold spring-bean="gridViewCollectionBrowserMoldStrategy"/>
+			</cb:available-molds>
+		</cb:collection-browser>
+	</context>
+
+	<context merge-by="type" parent="GenericItem" type="City" component="editor-area">
+		<ea:editorArea xmlns:ea="http://www.hybris.com/cockpitng/component/editorArea">
+			<ea:tab name="Properties">
+				<ea:section name="Essential">
+					<ea:attribute qualifier="code"/>
+					<ea:attribute qualifier="name"/>
+				</ea:section>
+			</ea:tab>
+		</ea:editorArea>
+	</context>
+
+</config>
